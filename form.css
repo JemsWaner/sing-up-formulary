@@ -38,7 +38,9 @@ button {
 button:focus {
   outline: black solid 2px;
 }
-
+.red-text {
+  color: red;
+}
 .red-box {
   border-color: red;
 }

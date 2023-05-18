@@ -1,38 +1,97 @@
 const user = document.getElementById("username");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const password_confirm = document.getElementById("password-confirm");
+const confirmPassword = document.getElementById("password-confirm");
 const form = document.querySelector("form");
 const inputs = document.getElementsByTagName("input");
+const span = document.getElementsByTagName("span");
 
 function loopInputs() {
-  for (let j of inputs) {
-    if (j.value.length == 0) {
-      j.className = "red-box";
-      j.nextSibling.textContent = `${j.name} is required`;
-    } else {
-      j.className = "green-box";
-      j.nextSibling.textContent = "";
-    }
-  }
-  //after loop here it comes the conditionals
-  if (user.value.length == 0) {
+  //////////*To confirm the user first*/////////////////
+  if (user.value.length == "") {
     user.className = "red-box";
-    user.nextSibling.textContent = "username is required";
+    span[0].textContent = `username is required`;
   } else if (user.value.length < 3) {
     user.className = "red-box";
-    user.nextSibling.textContent = "username must be at least 3 characters";
+    span[0].textContent = `username must be at least 3 characters`;
   } else {
     user.className = "green-box";
-    user.nextSibling.textContent = "";
+    span[0].textContent = "";
+  }
+
+  ///////////////* Now confirm the email*//////////////////
+  if (email.value.length == "") {
+    email.className = "red-box";
+    span[1].textContent = `email is required`;
+  } else if (!email.value.includes(".com")) {
+    email.className = "red-box";
+    span[1].textContent = `email doesn't contains ".com"`;
+  } else {
+    email.className = "green-box";
+    span[1].textContent = "";
+  }
+  ///////////////* Now confirm the Passwords*//////////////////
+  if (password.value.length == "") {
+    password.className = "red-box";
+    span[2].textContent = `password is required`;
+  } else if (password.value.length < 6) {
+    password.className = "red-box";
+    span[2].textContent = `password must be at least 6 characters`;
+  } else {
+    password.className = "green-box";
+    span[2].textContent = "";
+  }
+  ///////////////* Checking if the two Passwords match*//////////////////
+  if (confirmPassword.value.length == "") {
+    confirmPassword.className = "red-box";
+    span[3].textContent = `password again is required`;
+  } else if (confirmPassword.value !== password.value) {
+    confirmPassword.className = "red-box";
+    span[3].textContent = `passwords doesn't match`;
+  } else if (
+    confirmPassword.value == password.value &&
+    password.value.length < 6
+  ) {
+    confirmPassword.className = "red-box";
+    span[3].textContent = `passwords doesn't match`;
+  } else {
+    confirmPassword.className = "green-box";
+    span[3].textContent = "";
   }
 }
 
 form.addEventListener("submit", (data) => {
   data.preventDefault();
   loopInputs();
+  /* Here below I just passed through all the inputs wich has the green box class. 
+  If it's green and the counter has 4 in result of all the inputs it finally means that It works wonder */
+  let counter = 0;
+  for (let i of inputs) {
+    if (i.className == "green-box") {
+      counter++;
+    }
+  }
+  if (counter == 4) {
+    alert("Form send sucessfully");
+  }
 });
+///////////////////////////////////////////Below this line there is another dead code I made after, of course I deleted more
+// for (let j of inputs) {
+//   if (j.value.length == 0) {
+//     j.className = "red-box";
+//     j.nextSibling.textContent = `${j.name} is required`;
+//     j.nextElementSibling.className = "red-text";
+//   } else {
+//     j.className = "green-box";
+//     span.textContent = "";
+//   }
+// }
 
+//////////////////////////////////////////below this line thre's another trash code
+
+//
+//
+//
 // function validateInputs() {
 //   for (let i of inputs) {
 //     let names = i.name;
