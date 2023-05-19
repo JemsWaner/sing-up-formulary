@@ -32,13 +32,7 @@ function loopInputs() {
   } else if (user.value.length < 3) {
     user.className = "red-box";
     span[0].textContent = `username must be at least 3 characters`;
-  }
-  // else if (user.value.includes(" ")) {
-  // //   user.className = "red-box";
-  // //   span[0].textContent = `username musn't contain spaces`;
-  // //
-  // // }  I don't need to use this code anymore because I automatically fixed the white spaces with the function whiteSpaces()
-  else {
+  } else {
     user.className = "green-box";
     span[0].textContent = "";
   }
