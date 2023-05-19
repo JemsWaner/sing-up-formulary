@@ -77,8 +77,8 @@ function loopInputs() {
     confirmPassword.className = "red-box";
     span[3].textContent = `passwords doesn't match`;
   } else if (
-    confirmPassword.value == password.value &&
-    password.value.length < 6
+    (confirmPassword.value == password.value && password.value.length < 6) ||
+    !password.value.match(numbers)
   ) {
     confirmPassword.className = "red-box";
     span[3].textContent = `passwords doesn't match`;
