@@ -9,19 +9,21 @@ const numbers = /[0-9]/g;
 /*Below are there two necessary functions to confirm emails and usernames*/
 
 function validateEmail(input) {
-  var validRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let validate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (input.match(validRegex)) {
+  if (input.match(validate)) {
     return true;
   } else {
     return false;
   }
 }
+
 let whiteSpaces = () => {
   let newString = user.value.replace(/\s/g, "");
   user.value = newString;
   //another way that I learned was: let newString = user.value.trim() but I doesn't search in betweens
 };
+
 function loopInputs() {
   //////////*To confirm the user first*/////////////////
   if (user.value.length == "") {
@@ -64,7 +66,7 @@ function loopInputs() {
     span[2].textContent = `password must be at least 6 characters`;
   } else if (!password.value.match(numbers)) {
     password.className = "red-box";
-    span[2].textContent = `passwords must contain numbers`;
+    span[2].textContent = `passwords need to have at least 1 number`;
   } else {
     password.className = "green-box";
     span[2].textContent = "";
@@ -104,53 +106,3 @@ form.addEventListener("submit", (data) => {
     alert("Form send sucessfully");
   }
 });
-///////////////////////////////////////////Below this line there is another dead code I made after, of course I deleted more
-// for (let j of inputs) {
-//   if (j.value.length == 0) {
-//     j.className = "red-box";
-//     j.nextSibling.textContent = `${j.name} is required`;
-//     j.nextElementSibling.className = "red-text";
-//   } else {
-//     j.className = "green-box";
-//     span.textContent = "";
-//   }
-// }
-
-//////////////////////////////////////////below this line thre's another trash code
-
-//
-//
-//
-// function validateInputs() {
-//   for (let i of inputs) {
-//     let names = i.name;
-
-//     if (i.value == "") {
-//       i.nextSibling.textContent = `${names} is required`;
-//       i.classList.add("red_text");
-//     } else if (inputs[0].value.length <= 2) {
-//       inputs[0].nextSibling.textContent = `username must be at least 3 characters`;
-//     } else if (!inputs[1].value.includes(".com")) {
-//       inputs[1].nextSibling.textContent = `email doesn't contains ".com"`;
-//     } else if (inputs[2].value.length <= 5) {
-//       inputs[2].nextSibling.textContent = `password must be at least 6 characters`;
-//     } else if (inputs[3].value.length !== inputs[2].value.length) {
-//       inputs[3].nextSibling.textContent = `Passwords don't match`;
-//     } else {
-//       return true;
-//     }
-//   }
-// }
-
-// //////Here I'm just calling the function, adding green border to the sucessfull fields and removing the advertising messages
-// form.addEventListener("submit", (data) => {
-//   data.preventDefault();
-//   validateInputs();
-//   if (validateInputs()) {
-//     for (let i of inputs) {
-//       i.style.borderColor = "green";
-//       i.nextSibling.textContent = "";
-//     }
-//     alert("the form is valid");
-//   }
-// });
