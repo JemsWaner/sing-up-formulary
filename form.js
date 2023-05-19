@@ -5,8 +5,7 @@ const confirmPassword = document.getElementById("password-confirm");
 const form = document.querySelector("form");
 const inputs = document.getElementsByTagName("input");
 const span = document.getElementsByTagName("span");
-const numbers = /[0-9]/g;
-/*Below are there two necessary functions to confirm emails and usernames*/
+/*Below is there a necessary function to confirm emails and*/
 
 function validateEmail(input) {
   let validate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,12 +17,6 @@ function validateEmail(input) {
   }
 }
 
-let whiteSpaces = () => {
-  let newString = user.value.replace(/\s/g, "");
-  user.value = newString;
-  //another way that I learned was: let newString = user.value.trim() but I doesn't search in betweens
-};
-
 function loopInputs() {
   //////////*To confirm the user first*/////////////////
   if (user.value.length == "") {
@@ -32,6 +25,9 @@ function loopInputs() {
   } else if (user.value.length < 3) {
     user.className = "red-box";
     span[0].textContent = `username must be at least 3 characters`;
+  } else if (user.value.includes(" ")) {
+    user.className = "red-box";
+    span[0].textContent = `username musn't contain spaces`;
   } else {
     user.className = "green-box";
     span[0].textContent = "";
@@ -58,9 +54,6 @@ function loopInputs() {
   } else if (password.value.length < 6) {
     password.className = "red-box";
     span[2].textContent = `password must be at least 6 characters`;
-  } else if (!password.value.match(numbers)) {
-    password.className = "red-box";
-    span[2].textContent = `passwords need to have at least 1 number`;
   } else {
     password.className = "green-box";
     span[2].textContent = "";
@@ -73,8 +66,8 @@ function loopInputs() {
     confirmPassword.className = "red-box";
     span[3].textContent = `passwords doesn't match`;
   } else if (
-    (confirmPassword.value == password.value && password.value.length < 6) ||
-    !password.value.match(numbers)
+    confirmPassword.value == password.value &&
+    password.value.length < 6
   ) {
     confirmPassword.className = "red-box";
     span[3].textContent = `passwords doesn't match`;
@@ -86,7 +79,6 @@ function loopInputs() {
 
 form.addEventListener("submit", (data) => {
   data.preventDefault();
-  whiteSpaces();
   loopInputs();
   /* Here below I just passed through all the inputs wich has the green box class. 
   If it's green and the counter has 4 in result of all the inputs it finally means that It works wonder */
