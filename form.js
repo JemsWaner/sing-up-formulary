@@ -16,9 +16,14 @@ function validateEmail(input) {
     return false;
   }
 }
+function deleteSpaces() {
+  let value = user.value.trim();
+  user.value = value;
+}
 
 function loopInputs() {
   //////////*To confirm the user first*/////////////////
+  deleteSpaces();
   if (user.value.length == "") {
     user.className = "red-box";
     span[0].textContent = `username is required`;
