@@ -23,7 +23,7 @@ function deleteSpaces() {
 
 function loopInputs() {
   //////////*To confirm the user first*/////////////////
-  user.addEventListener("mouseout", () => {
+  user.addEventListener("focusout", () => {
     deleteSpaces();
   });
   if (user.value.length == "") {
