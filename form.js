@@ -23,7 +23,9 @@ function deleteSpaces() {
 
 function loopInputs() {
   //////////*To confirm the user first*/////////////////
-  deleteSpaces();
+  user.addEventListener("mouseout", () => {
+    deleteSpaces();
+  });
   if (user.value.length == "") {
     user.className = "red-box";
     span[0].textContent = `username is required`;
