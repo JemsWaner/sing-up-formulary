@@ -20,12 +20,12 @@ function deleteSpaces() {
   let value = user.value.trim();
   user.value = value;
 }
-
+user.addEventListener("focusout", () => {
+  deleteSpaces();
+});
 function loopInputs() {
   //////////*To confirm the user first*/////////////////
-  user.addEventListener("focusout", () => {
-    deleteSpaces();
-  });
+
   if (user.value.length == "") {
     user.className = "red-box";
     span[0].textContent = `username is required`;
@@ -86,6 +86,9 @@ function loopInputs() {
 
 form.addEventListener("submit", (data) => {
   data.preventDefault();
+  user.addEventListener("focusout", () => {
+    deleteSpaces();
+  });
   loopInputs();
   /* Here below I just passed through all the inputs wich has the green box class. 
   If it's green and the counter has 4 in result of all the inputs it finally means that It works wonder */
