@@ -1,104 +1,89 @@
-const user = document.getElementById("username");
+const username = document.getElementById("username");
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const confirmPassword = document.getElementById("password-confirm");
 const form = document.querySelector("form");
-const inputs = document.getElementsByTagName("input");
-const span = document.getElementsByTagName("span");
-/*Below is there a necessary function to confirm emails and*/
+let invalidInputs = [];
 
 function validateEmail(input) {
-  let validate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (input.match(validate)) {
-    return true;
-  } else {
-    return false;
-  }
+  return input.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
 }
-function deleteSpaces() {
-  let value = user.value.trim();
-  user.value = value;
+function removeSpaces(input) {
+  input.value = input.value.trim();
 }
-user.addEventListener("focusout", () => {
-  deleteSpaces();
-});
-function loopInputs() {
-  //////////*To confirm the user first*/////////////////
 
-  if (user.value.length == "") {
-    user.className = "red-box";
-    span[0].textContent = `username is required`;
-  } else if (user.value.length < 3) {
-    user.className = "red-box";
-    span[0].textContent = `username must be at least 3 characters`;
-  } else if (user.value.includes(" ")) {
-    user.className = "red-box";
-    span[0].textContent = `username musn't contain spaces`;
-  } else {
-    user.className = "green-box";
-    span[0].textContent = "";
+let setError = (input, message) => {
+  input.classList.add("error-border");
+  input.classList.remove("success");
+  document.querySelector(`#${input.id}-error`).textContent = message;
+  if (!invalidInputs.includes(input.id)) {
+    invalidInputs.push(input.id);
   }
+};
 
+let setSuccess = (input) => {
+  input.classList.add("success");
+  input.classList.remove("error");
+  document.querySelector(`#${input.id}-error`).textContent = "";
+  invalidInputs = invalidInputs.filter((arr) => arr !== input.id);
+};
+
+function validateForm() {
+  let userSpacesRemover = username.value.trim();
+  if (!userSpacesRemover.length) {
+    setError(username, "username is required");
+  } else if (userSpacesRemover.length < 3) {
+    setError(username, "username must be at least 3 characters");
+  } else if (userSpacesRemover.includes(" ")) {
+    setError(username, "username musn't contain spaces");
+  } else {
+    setSuccess(username);
+  }
   ///////////////* Now confirm the email*//////////////////
-  if (email.value.length == "") {
-    email.className = "red-box";
-    span[1].textContent = `email is required`;
-  } else if (email.value.includes(" ")) {
-    user.className = "red-box";
-    span[1].textContent = `email musn't contain spaces`;
-  } else if (validateEmail(email.value) !== true) {
-    email.className = "red-box";
-    span[1].textContent = `please put a valid email`;
+  let emailSpacesRemover = email.value.trim();
+  if (!emailSpacesRemover.length) {
+    setError(email, "email is required");
+  } else if (emailSpacesRemover.includes(" ")) {
+    setError(email, "email musn't contain spaces");
+  } else if (!validateEmail(emailSpacesRemover)) {
+    setError(email, "please put a valid email");
   } else {
-    email.className = "green-box";
-    span[1].textContent = "";
+    setSuccess(email);
   }
   ///////////////* Now confirm the Passwords*//////////////////
-  if (password.value.length == "") {
-    password.className = "red-box";
-    span[2].textContent = `password is required`;
+  if (!password.value.length) {
+    setError(password, "password is required");
   } else if (password.value.length < 6) {
-    password.className = "red-box";
-    span[2].textContent = `password must be at least 6 characters`;
+    setError(password, "password must be at least 6 characters");
   } else {
-    password.className = "green-box";
-    span[2].textContent = "";
+    setSuccess(password);
   }
   ///////////////* Checking if the two Passwords match*//////////////////
-  if (confirmPassword.value.length == "") {
-    confirmPassword.className = "red-box";
-    span[3].textContent = `password again is required`;
+  if (!confirmPassword.value.length) {
+    setError(confirmPassword, "password again is required");
   } else if (confirmPassword.value !== password.value) {
-    confirmPassword.className = "red-box";
-    span[3].textContent = `passwords doesn't match`;
+    setError(confirmPassword, "passwords doesn't match");
   } else if (
-    confirmPassword.value == password.value &&
+    confirmPassword.value === password.value &&
     password.value.length < 6
   ) {
-    confirmPassword.className = "red-box";
-    span[3].textContent = `passwords doesn't match`;
+    setError(confirmPassword, "passwords doesn't match");
   } else {
-    confirmPassword.className = "green-box";
-    span[3].textContent = "";
+    setSuccess(confirmPassword);
   }
 }
 
-form.addEventListener("submit", (data) => {
-  data.preventDefault();
-  user.addEventListener("focusout", () => {
-    deleteSpaces();
-  });
-  loopInputs();
-  /* Here below I just passed through all the inputs wich has the green box class. 
-  If it's green and the counter has 4 in result of all the inputs it finally means that It works wonder */
-  let counter = 0;
-  for (let i of inputs) {
-    if (i.className == "green-box") {
-      counter++;
-    }
-  }
-  if (counter == 4) {
-    alert("Form send sucessfully");
+username.addEventListener("blur", () => {
+  removeSpaces(username);
+});
+email.addEventListener("blur", () => {
+  removeSpaces(email);
+});
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  validateForm();
+  if (!invalidInputs.length) {
+    alert("Form was sent successfully");
   }
 });

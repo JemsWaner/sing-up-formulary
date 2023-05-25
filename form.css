@@ -38,12 +38,12 @@ button {
 button:focus {
   outline: black solid 2px;
 }
-.red-text {
+.error {
   color: red;
 }
-.red-box {
+.error-border {
   border-color: red;
 }
-.green-box {
+.success {
   border-color: green;
 }
